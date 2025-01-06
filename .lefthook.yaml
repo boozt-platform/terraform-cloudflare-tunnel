@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
+# SPDX-License-Identifier: MIT
+---
+remotes:
+  - git_url: https://github.com/boozt-platform/lefthook.git
+    ref: v1.3.0
+    configs:
+      # lint commit messages based by the conventional commits
+      - hooks/commitlint/.lefthook.yaml
+      # check if the license headers are present in the files
+      - hooks/license-checker/.lefthook.yaml
+      # lint the markdown (.md) files
+      - hooks/markdown-lint/.lefthook.yaml
+      # lint the yaml (.yml, .yaml) files
+      - hooks/yamllint/.lefthook.yaml
