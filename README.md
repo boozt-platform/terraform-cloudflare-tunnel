@@ -1,19 +1,17 @@
 <!-- markdownlint-disable -->
-<!-- Header Starts -->
 [<img src="https://raw.githubusercontent.com/boozt-platform/branding/main/assets/img/platform-logo.png" width="350"/>][homepage]
 
-[![GitHub Tag (latest SemVer)](https://img.shields.io/github/v/tag/boozt-platform/quickstart-template.svg?label=latest&sort=semver)][releases]
+[![GitHub Tag (latest SemVer)](https://img.shields.io/github/v/tag/boozt-platform/terraform-cloudflare-tunnel.svg?label=latest&sort=semver)][releases]
 [![license](https://img.shields.io/badge/license-mit-brightgreen.svg)][license]
 <!-- markdownlint-restore -->
 
-<!-- Title & Description -->
-# quickstart-template
+# terraform-cloudflare-tunnel
 
-Quickstart template for GitHub repositories. You may use this template to
-create new repositories with a predefined structure.
-<!-- Header Ends -->
+Terraform configurations to manage and deploy Cloudflare Tunnels, enabling
+secure and seamless connectivity to private networks or applications. It
+includes a modular structure, allowing users to customize and extend
+functionality for various platforms and environments.
 
-<!-- TOC Starts -->
 ## Table of Contents
 
 - [How to Use It](#how-to-use-it)
@@ -21,39 +19,38 @@ create new repositories with a predefined structure.
 - [Reporting Issues](#reporting-issues)
 - [Contributing](#contributing)
 - [License](#license)
-<!-- TOC Ends -->
 
-<!-- Body Starts -->
 ## How to Use It
 
-This project is a template repository with various guidelines, the required CI
-release versioning pipeline, licenses, and more. You may use this project as a
-reference to start a new repository. Once you've created a new repository from
-this template, update the `README.md` file content according to your needs.
+```hcl
+module "cloudflare_tunnel" {
+    source  = "github.com/boozt-platform/terraform-cloudflare-tunnel"
+    version = "1.1.0"
 
-It is necessary to maintain consistency and structure in this `README.md` file.
-Please follow the action items below and the comment blocks of this file
-(`<!-- comment block -->`):
+    tunnel_prefix_name = "tf-tunnel"
+    tunnel_name = "my-tunnel"
+    tunnel_config_src = "cloudflare"
+    
+    api_token = "optional-cloudflare-account-api-token"
+    account_id  = "required-cloudflare-account-id"
 
-- [x] Create repository from this quickstart template.
-- [ ] Update Title & Description
-- [ ] Add extra header badges if needed. Please keep the License, SemVer
-badges, and Logo image (unless there is a reason) the same as they were
-distributed within this file.
-- [ ] Update body content according to your project.
-- [ ] Update the Table of Contents (TOC) based on your updated body content.
-- [ ] Please keep the footer the same as it was distributed within this file.
-- [ ] Remove all comment blocks from this `README.md` file i.e.
-`<!-- Body Starts--> <!-- Any other comment block -->`.
-- [ ] Remove this [How to Use It](#how-to-use-it) section.
-- [ ] Update [docs/CODEOWNERS](docs/CODEOWNERS) file.
-- [ ] Update [.goreleaser.yaml](.goreleaser.yaml) to your needs, this file and
-CI pipeline [.github/workflows/release.yml](.github/workflows/release.yml) are
-used to release new versions automatically once the PRs are merged to
-the main branch.
-<!-- Body Ends -->
+    tunnel_config = {
+        ingress_rules = [
+            {
+                hostname = "example.com"
+                service  = "http://localhost:8080"
+            },
+            {
+                hostname = "*.example.com"
+                service  = "http://localhost:8080"
+            }
+        ]   
+    }
 
-<!-- Footer Starts -->
+    secret = "your-tunnel-secret"
+}
+```
+
 ## About Boozt
 
 Boozt is a leading and fast-growing Nordic technology company selling fashion
@@ -92,14 +89,13 @@ please follow the [Contribution Guidelines][contributing]
 This project is licensed under the MIT. Please see [LICENSE][license] for
 full details.
 
-[homepage]: https://github.com/boozt-platform/quickstart-template
-[releases]: https://github.com/boozt-platform/quickstart-template/releases
-[issues]: https://github.com/boozt-platform/quickstart-template/issues
-[pull-request]: https://github.com/boozt-platform/quickstart-template/pulls
+[homepage]: https://github.com/boozt-platform/terraform-cloudflare-tunnel
+[releases]: https://github.com/boozt-platform/terraform-cloudflare-tunnel/releases
+[issues]: https://github.com/boozt-platform/terraform-cloudflare-tunnel/issues
+[pull-request]: https://github.com/boozt-platform/terraform-cloudflare-tunnel/pulls
 [contributing]: ./docs/CONTRIBUTING.md
 [license]: ./LICENSE
 [boozt]: https://www.boozt.com/
 [booztlet]: https://www.booztlet.com/
 [blog]: https://medium.com/boozt-tech
 [careers]: https://careers.booztgroup.com/
-<!-- Footer Ends -->
