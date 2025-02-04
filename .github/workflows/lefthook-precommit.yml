@@ -16,4 +16,4 @@ jobs:
       - name: Install Lefthook
         run: sudo apt install lefthook && lefthook install
       - name: Run Lefthook
-        run: lefthook run pre-commit
+        run: lefthook run pre-commit --all-files
