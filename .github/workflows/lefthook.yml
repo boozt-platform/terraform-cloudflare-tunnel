@@ -6,6 +6,7 @@ name: Lefthook
 jobs:
   lefthook:
     runs-on: ubuntu-latest
+    environment: development
     permissions:
       contents: write
     steps:
