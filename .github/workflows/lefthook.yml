@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
 # SPDX-License-Identifier: MIT
 ---
-name: Lefthook [pre-commit]
+name: Lefthook
 "on": [pull_request]
 jobs:
   lefthook:
@@ -15,5 +15,7 @@ jobs:
         run: curl -1sLf 'https://dl.cloudsmith.io/public/evilmartians/lefthook/setup.deb.sh' | sudo -E bash
       - name: Install Lefthook
         run: sudo apt install lefthook && lefthook install
-      - name: Run Lefthook
+      - name: Run Lefthook [pre-commit] across all files
         run: lefthook run pre-commit --all-files
+      - name: Run Lefthook [terraform] validation
+        run: lefthook run terraform
