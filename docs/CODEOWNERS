@@ -11,3 +11,15 @@
 # CI
 /.github/workflows/release.yml @boozt-platform/owners
 /.goreleaser.yaml @boozt-platform/owners
+
+# TODO: check documentation
+# Configuration
+/*.yaml @boozt-platform/owners
+/*.yml @boozt-platform/owners
+/*.txt @boozt-platform/owners
+/.gitignore @boozt-platform/owners
+LICENSE @boozt-platform/owners
+
+# Terraform
+/*.tf @boozt-platform/owners
+/*.hcl @boozt-platform/owners
