@@ -19,3 +19,6 @@ jobs:
         run: lefthook run pre-commit --all-files
       - name: Run Lefthook [terraform] validation
         run: lefthook run terraform
+        env:
+          TF_VAR_api_token: ${{ secrets.API_TOKEN }}
+          TF_VAR_account_id: ${{ secrets.ACCOUNT_ID }}
