@@ -1,6 +1,16 @@
 # SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
 # SPDX-License-Identifier: MIT
 
+mock_provider "cloudflare" {}
+
+variables {
+  account_id = "fake-account-id"
+  # API token is a fake token, but it is a valid token to pass the validation rules:
+  # - The token must be 40 characters long.
+  # - The token must only contain characters a-z, A-Z, 0-9, hyphens, and underscores.
+  api_token = "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0"
+}
+
 run "tunnel" {
   command = apply
 
