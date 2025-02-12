@@ -11,12 +11,6 @@ output "tunnel_id" {
   value       = try(cloudflare_zero_trust_tunnel_cloudflared.tunnel[0].id, null)
 }
 
-output "tunnel_secret" {
-  description = "The secret of the Cloudflare Tunnel (encoded in base64)."
-  value       = local.tunnel_secret
-  sensitive   = true
-}
-
 output "tunnel_token" {
   description = "The token of the Cloudflare Tunnel."
   value       = try(cloudflare_zero_trust_tunnel_cloudflared.tunnel[0].tunnel_token, null)

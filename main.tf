@@ -2,13 +2,13 @@
 # SPDX-License-Identifier: MIT
 
 locals {
-  tunnel_secret = try(base64encode(random_password.tunnel_secret[0].result), null)
-  tunnel_name   = "${var.tunnel_prefix_name}-${var.tunnel_name}"
+  tunnel_name  = "${var.tunnel_prefix_name}-${var.tunnel_name}"
+  tunnel_token = base64encode(try(random_password.tunnel_token[0].result, null))
 }
 
 # TODO: change resource with ephemeral resource once it's released:
 # https://github.com/hashicorp/terraform-provider-random/pull/625
-resource "random_password" "tunnel_secret" {
+resource "random_password" "tunnel_token" {
   count  = var.module_enabled ? 1 : 0
   length = 64
 
@@ -25,7 +25,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared" "tunnel" {
 
   account_id = var.account_id
   name       = local.tunnel_name
-  secret     = local.tunnel_secret
+  secret     = local.tunnel_token
   config_src = var.tunnel_config_src
 }
 
@@ -134,5 +134,11 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "tunnel_config" {
         }
       }
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      config.0.warp_routing,
+    ]
   }
 }
