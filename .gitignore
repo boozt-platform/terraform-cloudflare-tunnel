@@ -1,0 +1,6 @@
+terraform.tfvars
+terraform.tfstate*
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+.terraform
+.secrets
