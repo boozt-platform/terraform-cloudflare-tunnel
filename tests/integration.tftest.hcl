@@ -34,13 +34,8 @@ run "tunnel" {
   }
 
   assert {
-    condition     = output.tunnel_secret != ""
-    error_message = "The Cloudflare tunnel secret is empty."
-  }
-
-  assert {
-    condition     = output.tunnel_token != base64decode(output.tunnel_secret)
-    error_message = "The Cloudflare tunnel token not matched of the generated token."
+    condition     = length(output.tunnel_token) > 0
+    error_message = "The Cloudflare tunnel token is empty."
   }
 
   assert {

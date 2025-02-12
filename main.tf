@@ -3,7 +3,7 @@
 
 locals {
   tunnel_name  = "${var.tunnel_prefix_name}-${var.tunnel_name}"
-  tunnel_token = base64encode(try(random_password.tunnel_token[0].result, null))
+  tunnel_token = try(base64encode(random_password.tunnel_token[0].result), null)
 }
 
 # TODO: change resource with ephemeral resource once it's released:
