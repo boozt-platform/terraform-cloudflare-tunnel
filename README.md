@@ -23,31 +23,38 @@ functionality for various platforms and environments.
 ## How to Use It
 
 ```hcl
-module "cloudflare_tunnel" {
-    source  = "github.com/boozt-platform/terraform-cloudflare-tunnel"
-    version = "1.1.0"
+module "tunnel" {
+  source = "github.com/boozt-platform/terraform-cloudflare-tunnel"
 
-    tunnel_prefix_name = "tf-tunnel"
-    tunnel_name = "my-tunnel"
-    tunnel_config_src = "cloudflare"
-    
-    api_token = "optional-cloudflare-account-api-token"
-    account_id  = "required-cloudflare-account-id"
+  api_token   = "API_TOKEN"
+  account_id  = "ACCOUNT_ID"
+  tunnel_name = "bastion"
 
-    tunnel_config = {
-        ingress_rules = [
-            {
-                hostname = "example.com"
-                service  = "http://localhost:8080"
-            },
-            {
-                hostname = "*.example.com"
-                service  = "http://localhost:8080"
-            }
-        ]   
-    }
+  # check variable of tunnel_config for more options 
+  tunnel_config = {
+    ingress_rule = [
+      {
+        service = "bastion"
+        origin_request = {
+          bastion_mode = true
+        }
+      }
+    ]
+  }
+}
 
-    secret = "your-tunnel-secret"
+# An example of how to pass the tunnel access token
+# to the GCP secret
+module "tunnel_secret" {
+  source     = "GoogleCloudPlatform/secret-manager/google"
+  version    = "~> 0.7"
+  project_id = "GCP_PROJECT_ID
+  secrets = [
+    {
+      name        = "cf-tunnel-bastion-access-token"
+      secret_data = module.tunnel.tunnel_token
+    },
+  ]
 }
 ```
 
