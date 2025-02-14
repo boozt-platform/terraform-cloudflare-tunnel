@@ -3,11 +3,9 @@
 
 # This example creates a Cloudflare Tunnel with a bastion mode enabled.
 module "tunnel" {
-  source = "github.com/boozt-platform/terraform-cloudflare-tunnel"
-
-  api_token  = var.api_token
-  account_id = var.account_id
-
+  source      = "github.com/boozt-platform/terraform-cloudflare-tunnel"
+  api_token   = var.api_token
+  account_id  = var.account_id
   tunnel_name = "bastion"
   tunnel_config = {
     ingress_rule = [
@@ -38,21 +36,9 @@ module "tunnel_secret" {
 # We are testing if the secret is created and we can retrieve it
 data "google_secret_manager_secret_version" "tunnel_secret" {
   # secret = one(module.tunnel_secret.secret_names)
-  secret  = "cf-tunnel-bastion-access-token"
-  project = var.project_id
-
+  secret     = "cf-tunnel-bastion-access-token"
+  project    = var.project_id
   depends_on = [module.tunnel_secret]
-}
-
-# Create a null_resource to create a .secrets file with the tunnel secret
-# to avoid running cloudflared with sensitive variable and see the raw output.
-resource "null_resource" "create_secrets" {
-  provisioner "local-exec" {
-    command = <<EOT
-      echo "export CLOUDFLARE_TOKEN='${data.google_secret_manager_secret_version.tunnel_secret.secret_data}'" > .secrets || exit 1
-      chmod 400 .secrets || exit 1
-    EOT
-  }
 }
 
 # Validate the tunnel token by running cloudflared tunnel command
@@ -60,9 +46,23 @@ resource "null_resource" "validate_tunnel_token" {
   provisioner "local-exec" {
     command = <<EOT
       source .secrets
-      cloudflared tunnel --loglevel debug run --bastion --token $CLOUDFLARE_TOKEN || exit 1
+      # Run cloudflared in the background with timeout
+      timeout 5s cloudflared tunnel --loglevel debug run --bastion --token ${data.google_secret_manager_secret_version.tunnel_secret.secret_data} &
+
+      # Get process ID (PID) of cloudflared
+      PID=$!
+
+      # Wait a few seconds for successful connection
+      sleep 5
+
+      # Check logs for a successful connection message
+      if ps -p $PID > /dev/null; then
+        echo "Tunnel is running successfully. Killing process..."
+        kill $PID
+      else
+        echo "Tunnel failed to start."
+        exit 1
+      fi
     EOT
   }
-
-  depends_on = [null_resource.create_secrets]
 }

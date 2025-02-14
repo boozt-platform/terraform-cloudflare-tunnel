@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
+# SPDX-License-Identifier: MIT
+---
+formatter: "markdown table"
+
+# yamllint disable rule:line-length
+content: |-
+  # terraform-cloudflare-tunnel/tunnel-route
+
+  The tunnel-route module in the terraform-cloudflare-tunnel repository is
+  designed to define and manage routing configurations for Cloudflare Tunnels
+  within a Zero Trust architecture. It enables the association of specific
+  private IP address ranges (subnets) with designated Cloudflare Virtual
+  Networks, facilitating secure and efficient traffic routing through the
+  tunnels.
+
+  ```hcl
+  module "network_routes" {
+    source     = "github.com/boozt-platform/terraform-cloudflare-tunnel//modules/tunnel-route"
+    api_token  = var.api_token
+    account_id = var.account_id
+    tunnel_id  = var.tunnel_id
+
+    routes = [
+      {
+        network            = "10.10.10.0/24"
+        virtual_network_id = var.virtual_network_id_1
+        comment            = "Subnet #1 for virtual network 1"
+      },
+      {
+        network            = "10.10.20.0/24"
+        virtual_network_id = var.virtual_network_id_2
+        comment            = "Subnet #2 for virtual network 2"
+      },
+    ]
+  }
+  ```
+  <!-- markdownlint-disable -->
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Resources }}
+  <!-- markdownlint-restore -->
+# yamllint enable rule:line-length
+
+output:
+  file: README.md
+  mode: replace
+  template: |-
+    {{ .Content }}

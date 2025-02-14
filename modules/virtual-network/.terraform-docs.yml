@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
+# SPDX-License-Identifier: MIT
+---
+formatter: "markdown table"
+
+# yamllint disable rule:line-length
+content: |-
+  # terraform-cloudflare-tunnel/virtual-network
+
+  The virtual-network module in the terraform-cloudflare-tunnel repository
+  is designed to create and manage Cloudflare Virtual Networks within a Zero
+  Trust architecture. This module facilitates the segmentation of your network
+  by establishing isolated virtual networks, allowing for organized and secure
+  routing of traffic through Cloudflare Tunnels.
+
+  ```hcl
+  module "virtual_network" {
+    source     = "github.com/boozt-platform/terraform-cloudflare-tunnel//modules/virtual-network"
+    api_token  = var.api_token
+    account_id = var.account_id
+
+    virtual_network_name    = "example-network"
+    virtual_network_comment = "This is an example virtual network"
+  }
+  ```
+  <!-- markdownlint-disable -->
+  {{ .Providers }}
+  {{ .Requirements }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Resources }}
+  <!-- markdownlint-restore -->
+# yamllint enable rule:line-length
+
+output:
+  file: README.md
+  mode: replace
+  template: |-
+    {{ .Content }}

@@ -1,0 +1,105 @@
+# SPDX-FileCopyrightText: Copyright Boozt Fashion, AB
+# SPDX-License-Identifier: MIT
+---
+formatter: "markdown table"
+
+recursive:
+  enabled: true
+  path: modules
+  include-main: true
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: name
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  hide-empty: false
+  html: true
+  indent: 2
+  lockfile: true
+  read-comments: true
+  required: true
+  sensitive: true
+  type: true
+
+# yamllint disable rule:line-length
+content: |-
+  {{ include "docs/header.md" }}
+
+  ## Table of Contents
+
+  - [Modules](#modules)
+  - [How to Use It](#how-to-use-it)
+  - [Examples](#examples)
+    - [Tunnel example with GSM and token verification.](#tunnel-example-with-gsm-and-token-verification)
+  - [About Boozt](#about-boozt)
+  - [Reporting Issues](#reporting-issues)
+  - [Contributing](#contributing)
+  - [License](#license)
+
+  ## Modules
+
+  - [CloudFlare Tunnel](#how-to-use-it)
+  - [Cloudflare Tunnel Routes](./modules/tunnel-route/)
+  - [Cloudflare Virtual Network](./modules/virtual-network/)
+
+  ## How to Use it
+
+  This Terraform configuration provisions a Cloudflare Tunnel to securely
+  expose a local HTTP service running on port 8080 (localhost:8080) to the
+  public internet under the hostname example.com.
+
+  <!-- markdownlint-disable -->
+  ```hcl
+  {{ include "examples/cloudflare-tunnel/main.tf" }}
+  ```
+  <!-- markdownlint-restore -->
+
+  ## Examples
+
+  ### Tunnel example with GSM and token verification
+
+  This Terraform configuration sets up a Cloudflare Tunnel in bastion mode,
+  securely stores the tunnel token in Google Cloud Secret Manager, and
+  validates the tunnel token to ensure it functions correctly.
+
+  <!-- markdownlint-disable -->
+  ```hcl
+  {{ include "examples/cloudflare-bastion-tunnel-and-gsm/main.tf" }}
+  ```
+
+  ### Tunnel with Virtual Networks and Routing
+
+  This Terraform configuration creates a Cloudflare Tunnel, provisions two
+  virtual networks, and defines routing rules for private IP subnets within
+  Cloudflare Zero Trust. This setup allows secure access to internal networks
+  via Cloudflare Tunnel.
+
+  ```hcl
+  {{ include "examples/tunnel-with-virtual-networks-and-routing/main.tf" }}
+  ```
+
+  {{ .Inputs }}
+  {{ .Outputs }}
+  <!-- markdownlint-restore -->
+
+  {{ include "docs/footer.md" }}
+  <!-- markdownlint-disable single-trailing-newline -->
+# yamllint enable rule:line-length
+
+output:
+  file: README.md
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
