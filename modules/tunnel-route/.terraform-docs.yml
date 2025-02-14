@@ -5,7 +5,7 @@ formatter: "markdown table"
 
 # yamllint disable rule:line-length
 content: |-
-  ## terraform-cloudflare-tunnel/tunnel-route
+  # terraform-cloudflare-tunnel/tunnel-route
 
   The tunnel-route module in the terraform-cloudflare-tunnel repository is
   designed to define and manage routing configurations for Cloudflare Tunnels
@@ -35,12 +35,13 @@ content: |-
     ]
   }
   ```
-
+  <!-- markdownlint-disable -->
   {{ .Providers }}
   {{ .Requirements }}
   {{ .Inputs }}
   {{ .Outputs }}
   {{ .Resources }}
+  <!-- markdownlint-restore -->
 # yamllint enable rule:line-length
 
 output:

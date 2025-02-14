@@ -4,7 +4,7 @@
 formatter: "markdown table"
 
 recursive:
-  enabled: false
+  enabled: true
   path: modules
   include-main: true
 

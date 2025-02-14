@@ -5,7 +5,7 @@ formatter: "markdown table"
 
 # yamllint disable rule:line-length
 content: |-
-  ## terraform-cloudflare-tunnel/virtual-network
+  # terraform-cloudflare-tunnel/virtual-network
 
   The virtual-network module in the terraform-cloudflare-tunnel repository
   is designed to create and manage Cloudflare Virtual Networks within a Zero
@@ -23,12 +23,13 @@ content: |-
     virtual_network_comment = "This is an example virtual network"
   }
   ```
-
+  <!-- markdownlint-disable -->
   {{ .Providers }}
   {{ .Requirements }}
   {{ .Inputs }}
   {{ .Outputs }}
   {{ .Resources }}
+  <!-- markdownlint-restore -->
 # yamllint enable rule:line-length
 
 output:
