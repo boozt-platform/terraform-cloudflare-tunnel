@@ -8,7 +8,7 @@ variable "api_token" {
   sensitive   = true
 
   validation {
-    condition     = can(regex("^[a-zA-Z0-9_-]{40}$", var.api_token))
+    condition     = var.api_token == null || can(regex("^[a-zA-Z0-9_-]{40}$", var.api_token))
     error_message = "API Token must be 40 characters long and only contain characters a-z, A-Z, 0-9, hyphens and underscores."
   }
 }
